@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="text-center mt-4">Modifier Membre</h1>
+
+    {{ form_errors(membreForm) }}
+
+    {{ form_start(membreForm) }}
+        {{ form_row(membreForm.email) }}
+        
+        {{ form_row(membreForm.pseudo, {
+            label: 'Pseudo'
+        }) }}
+        
+        {{ form_row(membreForm.civilite, {
+            label: 'Civilité'
+        }) }}
+        
+        {{ form_row(membreForm.statut, {
+            label: 'Statut'
+        }) }}
+
+
+        <button type="submit" class="btn btn-dark">Inscrivez-vous</button>
+    {{ form_end(membreForm) }}
+</div>
+{% endblock %}

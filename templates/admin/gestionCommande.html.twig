@@ -1,0 +1,53 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Gestion des commandes
+{% endblock title %}
+
+{% block body %}
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success text-center w-50 mx-auto my2">
+        {{ message }}
+    </div>
+    {% endfor %}
+    <div class="container">
+        <div class="text-center my-4 h1">Gestion des commandes</div>
+
+        <a href="{{ path('app_admin') }}" class="btn btn-primary mb-3">Retour accueil BACK OFFICE</a>
+
+        <table class="table mt-4">
+            <thead class="table-dark">
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">Véhicule</th>
+                    <th class="text-center">Membre</th>
+                    <th class="text-center">Date et Heure de Départ</th>
+                    <th class="text-center">Date et Heure de Fin</th>
+                    <th class="text-center">Prix total</th>
+                    <th class="text-center">Date d'enregistrement</th>
+                    <th class="text-center">Option</th>
+                </tr>
+            </thead>
+
+            <tbody class="table-primary">                
+                {% for commande in commandes %}
+                    <tr>
+                        <td class="text-center">{{ commande.id }}</td>
+                        <td class="text-center">{{ commande.vehicule.titre }}</td>
+                        <td class="text-center">{{ commande.membre.pseudo }}</td>
+                        <td class="text-center">{{ commande.dateHeureDepart|date("m/d/Y à H:i:s") }}</td>
+                        <td class="text-center">{{ commande.dateHeureFin|date("m/d/Y à H:i:s") }}</td>
+                        <td class="text-center">{{ commande.prixTotal }}€</td>
+                        <td class="text-center">{{ commande.dateEnregistrement|date("m/d/Y à H:i:s") }}</td>
+                        <td class="text-center">
+                            <a href="{{ path('show_commande', {id: commande.id}) }}" class="text-info"><i class="fa fa-eye"></i></a>
+                            <a href="{{ path('edit_commande', {id: commande.id}) }}" class="text-warning"><i class="fa fa-edit"></i></a>
+                            <a href="{{ path('delete_commande', {id: commande.id}) }}" class="text-danger"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock body %}
+

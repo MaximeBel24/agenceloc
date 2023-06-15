@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+
+{% block title %}{{vehicule.titre}}{% endblock %}
+
+
+{% block body %}
+
+<section class="row article">
+    <a href="{{ path('blog_vehicule') }}" class="btn btn-primary mt-3 ">Retour Liste Vehicule</a>
+   
+    
+        <article class="col-md-8 mx-auto text-center bg-secondary text-dark border border-dark mb-3 p-3 mt-3 mr-1">
+            <h2>{{ vehicule.titre }}</h2>
+                <h3>{{ vehicule.marque }} {{ vehicule.modele }}</h3>
+                <div>{{ vehicule.photo }}</div>
+                <div class="card-body">
+                    <div class="metadata my-2">Ajoutée le 
+                    {{vehicule.dateEnregistrement|date('d/m/Y à H:i:s')}}
+                    </div>
+                    <p class="card-text">{{ vehicule.description|slice(0, 100)}}</p>
+                    <p>{{ vehicule.prixJournalier }}</p>
+                </div>
+
+        </article>
+        {% if app.user %}      
+        <a href="{{ path('form_commande', {id: vehicule.id}) }}" class="btn btn-info me-2">Réserver le véhicule</a>
+        {% else %}
+        <p>Pour réserver le véhicule, <a href="{{ path('app_register') }}">inscrivez-vous</a></p>
+        {% endif %}
+
+        
+    </section>
+
+{% endblock %}

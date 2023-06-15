@@ -1,0 +1,52 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Gestion des articles
+{% endblock title %}
+
+{% block body %}
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success text-center w-50 mx-auto my2">
+        {{ message }}
+    </div>
+    {% endfor %}
+    <div class="container">
+        <div class="text-center my-4 h1">Gestion des véhicules</div>
+
+        <a href="{{ path('app_admin') }}" class="btn btn-primary mb-3">Retour accueil BACK OFFICE</a>
+        <a href="{{ path('new_vehicule')}}" class="btn btn-primary mb-3">Ajouter un véhicule</a>
+
+        <table class="table mt-4">
+            <thead class="table-dark">
+                <tr>
+                    {% for data in colonnes %}
+                        <th class="text-center">{{ data }}</th>                        
+                    {% endfor %}
+                    <th class="text-center">Option</th>
+                </tr>
+            </thead>
+            <tbody class="table-primary">
+                
+                    {% for vehicule in vehicules %}
+                        <tr>
+                            <td class="text-center">{{ vehicule.id }}</td>
+                            <td class="text-center">{{ vehicule.titre }}</td>
+                            <td class="text-center">{{ vehicule.marque }}</td>
+                            <td class="text-center">{{ vehicule.modele }}</td>
+                            <td class="text-center">{{ vehicule.description }}</td>
+                            <td class="text-center">{{ vehicule.photo }}</td>
+                            <td class="text-center">{{ vehicule.prixJournalier }}€</td>
+                            <td class="text-center">{{ vehicule.dateEnregistrement|date("m/d/Y à H:i:s") }}</td>
+                            <td class="text-center">
+                                <a href="{{ path('show_vehicule', {id: vehicule.id}) }}" class="text-info"><i class="fa fa-car"></i></a>
+                                <a href="{{ path('edit_vehicule', {id: vehicule.id}) }}" class="text-warning"><i class="fa fa-edit"></i></a>
+                                <a href="{{ path('delete_vehicule', {id: vehicule.id}) }}" class="text-danger"><i class="fa fa-trash"></i></a>
+                                
+                            </td>
+                        </tr>
+                    {% endfor %}
+                
+            </tbody>
+        </table>
+    </div>
+{% endblock body %}

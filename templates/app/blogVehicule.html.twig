@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Liste des vehicules{% endblock %}
+
+
+{% block body %}
+<div class="container">
+    <h1 class="text-center mt-4">Liste des véhicules</h1>
+   
+    {% for item in vehicules %}
+          
+        <div class="col-md-3 mt-3 px-2">
+            <div class="card p-3" >
+                <h2>{{ item.titre }}</h2>
+                <h3>{{ item.marque }} {{ item.modele }}</h3>
+                <div>{{ item.photo }}</div>
+                <div class="card-body">
+                    <div class="metadata my-2">Ajoutée le 
+                    {{item.dateEnregistrement|date('d/m/Y à H:i:s')}}
+                    </div>
+                    <p class="card-text">{{ item.description|slice(0, 100)}}</p>
+                    <p>{{ item.prixJournalier }}€</p>
+                    <a href="{{ path('show_vehicule', {id: item.id}) }}" class="btn btn-primary">Lire la suite</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </section>
+</div>
+{% endblock %}

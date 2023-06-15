@@ -1,0 +1,59 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Gestion des membres
+{% endblock title %}
+
+{% block body %}
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success text-center w-50 mx-auto my2">
+        {{ message }}
+    </div>
+    {% endfor %}
+    <div class="container">
+        <div class="text-center my-4 h1">Gestion des membres</div>
+
+        <a href="{{ path('app_admin') }}" class="btn btn-primary mb-3">Retour accueil BACK OFFICE</a>
+
+        <table class="table mt-4">
+            <thead class="table-dark">
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">pseudo</th>
+                    <th class="text-center">nom</th>
+                    <th class="text-center">prénom</th>
+                    <th class="text-center">email</th>
+                    <th class="text-center">civilité</th>
+                    <th class="text-center">statut</th>
+                    <th class="text-center">date d'enregistrement</th>
+                    <th class="text-center">Option</th>
+                </tr>
+            </thead>
+
+            <tbody class="table-primary">                
+                    {% for membre in membres %}
+                        <tr>
+                            <td class="text-center">{{ membre.id }}</td>
+                            <td class="text-center">{{ membre.pseudo }}</td>
+                            <td class="text-center">{{ membre.nom }}</td>
+                            <td class="text-center">{{ membre.prenom }}</td>
+                            <td class="text-center">{{ membre.email }}</td>
+                            <td class="text-center">{{ membre.civilite }}</td>
+                            {% if membre.statut == 1 %}
+                            <td class="text-center">Admin</td>
+                            {% elseif membre.statut == 2 %}
+                            <td class="text-center">Utilisateur</td>
+                            {% endif %}
+                            <td class="text-center">{{ membre.dateEnregistrement|date("m/d/Y à H:i:s") }}</td>
+                            <td class="text-center">
+                                <a href="{{ path('show_membre', {id: membre.id}) }}" class="text-info"><i class="fa fa-user"></i></a>
+                                <a href="{{ path('edit_membre', {id: membre.id}) }}" class="text-warning"><i class="fa fa-edit"></i></a>
+                                <a href="{{ path('delete_membre', {id: membre.id}) }}" class="text-danger"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                
+            </tbody>
+        </table>
+    </div>
+{% endblock body %}

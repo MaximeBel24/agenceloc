@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+
+
+{% block title %}{{membre.pseudo}}{% endblock %}
+
+
+{% block body %}
+
+<section class="row article">
+    <a href="{{ path('gestion_membre') }}" class="btn btn-primary mt-3 ">Retour gestion des membres</a>
+   
+    
+        <article class="col-md-8 mx-auto text-center bg-secondary text-dark border border-dark mb-3 p-3 mt-3 mr-1">
+            <h2>{{ membre.pseudo }}</h2>
+                <h3>{{ membre.prenom }} {{ membre.nom }}</h3>
+                <div>{{ membre.civilite }}</div>
+                <div class="card-body">
+                    <div class="metadata my-2">Ajoutée le 
+                    {{membre.dateEnregistrement|date('d/m/Y à H:i:s')}}
+                    </div>
+                    <p class="card-text">{{ membre.email}}</p>
+                    {% if membre.statut == 1 %}
+                    <p>Admin</p>
+                    {% elseif membre.statut == 2 %}
+                    <p>Utilisateur</p>
+                    {% endif %}
+                </div>
+
+        </article>
+ 
+    </section>
+
+{% endblock %}
