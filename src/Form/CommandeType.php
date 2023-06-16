@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Form;
-
+use App\Validator\Reservation;
 use App\Entity\Commande;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,10 +14,6 @@ class CommandeType extends AbstractType
         $builder
             ->add('date_heure_depart')
             ->add('date_heure_fin')
-            // ->add('prix_total')
-            // ->add('date_enregistrement')
-            // ->add('membre')
-            // ->add('vehicule')
         ;
     }
 

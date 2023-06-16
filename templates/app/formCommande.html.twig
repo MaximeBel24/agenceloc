@@ -3,17 +3,20 @@
 {% block title %}Formulaire de commande{% endblock %}
 
 {% block body %}
-<h1>Formulaire de commande</h1>
+<div class="container">
+    <h1 class="text-center mt-4">Formulaire de commande</h1>
 
-{{ form_start(commandeForm) }}
-<div>
-    {{ form_label(commandeForm.date_heure_depart) }}
-    {{ form_widget(commandeForm.date_heure_depart) }}
+    {{ form_start(commandeForm) }}
+    <div>
+        {{ form_label(commandeForm.date_heure_depart) }}
+        {{ form_widget(commandeForm.date_heure_depart) }}
+    </div>
+    <div>
+        {{ form_label(commandeForm.date_heure_fin) }}
+        {{ form_widget(commandeForm.date_heure_fin) }}
+    </div>
+
+    <button class="btn btn-primary mt-2" type="submit">Valider</button>
 </div>
-<div>
-    {{ form_label(commandeForm.date_heure_fin) }}
-    {{ form_widget(commandeForm.date_heure_fin) }}
-</div>
-<button type="submit">Valider</button>
 {{ form_end(commandeForm) }}
 {% endblock %}

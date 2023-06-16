@@ -13,17 +13,7 @@ class MembreType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email')
-            ->add('pseudo')
-            ->add('civilite', ChoiceType::class, [
-                'label' => 'Civilité',
-                'choices' => [
-                    'Homme' => 'Homme',
-                    'Femme' => 'Femme',
-                    
-                ],
-                'placeholder' => 'Sélectionnez une civilité',
-            ])
+            
             ->add('statut', ChoiceType::class, [
                 'label' => 'Statut',
                 'choices' => [
