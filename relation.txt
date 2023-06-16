@@ -1,7 +1,0 @@
-entité commande
-
-relation
-
-commande ManyToOne Membre
-
-commande ManyToOne Vehicule
