@@ -40,9 +40,9 @@
                         <td class="text-center">{{ commande.prixTotal }}€</td>
                         <td class="text-center">{{ commande.dateEnregistrement|date("m/d/Y à H:i:s") }}</td>
                         <td class="text-center">
-                            <a href="{{ path('show_commande', {id: commande.id}) }}" class="text-info"><i class="fa fa-eye"></i></a>
+                            {# <a href="{{ path('show_commande', {id: commande.id}) }}" class="text-info"><i class="fa fa-eye"></i></a> #}
                             <a href="{{ path('admin_edit_commande', {id: commande.id}) }}" class="text-warning"><i class="fa fa-edit"></i></a>
-                            <a href="{{ path('delete_commande', {id: commande.id}) }}" class="text-danger"><i class="fa fa-trash"></i></a>
+                            <a href="{{ path('admin_delete_commande', {id: commande.id}) }}" class="text-danger"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
                 {% endfor %}

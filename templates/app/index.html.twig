@@ -8,5 +8,27 @@
     <h2 class="text-center">Venez louer nos voitures sportives</h2>
     <a href="{{path('blog_vehicule')}}" class="btn btn-primary w-25">Voir nos véhicules</a>
 </div>
-    {# <img src="{{ asset('assets/img/boutique.jpg')}}" width="100%"> #}
+
+{% if commandes is not empty%}
+
+<div class="commande-details">
+    <h3 class="text-center m-3">Vos commandes :</h3>
+    <div class="row article">
+    {% for commande in commandes %}
+    <div class="card text-white bg-primary mb-3 m-2" style="max-width: 20rem;">
+    <div class="card-header">Commande ID: {{ commande.id }}</div>
+    <div class="card-body">
+      <h4 class="card-title">Véhicule: {{ commande.vehicule.titre }}</h4>
+      <p class="card-text">Date de départ: {{ commande.dateHeureDepart|date }}, Date de fin: {{ commande.dateHeureFin|date }}.</p>
+      <p>Prix total: {{ commande.prixTotal }}€</p>
+        <a href="{{ path('delete_commande', {id: commande.id}) }}" class="text-danger"><i class="fa fa-trash"></i></a>
+    
+    </div>
+    </div>
+    {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+  
 {% endblock %}

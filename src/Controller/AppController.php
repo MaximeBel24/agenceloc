@@ -15,11 +15,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AppController extends AbstractController
 {
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('/', name: 'home')]
     public function index(): Response
     {
+        $membre = $this->getUser();
+        $commandes = $this->entityManager->getRepository(Commande::class)->findBy(['membre' => $this->getUser()]);
+
         return $this->render('app/index.html.twig', [
             'controller_name' => 'AppController',
+            'commandes' => $commandes,
         ]);
     }
 
@@ -58,18 +69,30 @@ class AppController extends AbstractController
         ]);
     }
 
-    // #[Route("/commande/edit/{id}", name:"edit_commande")]
-    #[Route('/show/formCommande/{id}', name: 'form_commande')]
-    public function formCommande(EntityManagerInterface $manager, Request $request,Vehicule $vehicule = null): Response 
+    
+
+    #[Route('/commande/delete/{id}', name: 'delete_commande')]
+    public function deleteCommande(Commande $commande, EntityManagerInterface $manager): Response
     {
-        if ($vehicule == null) 
-        {
-            return $this->redirectToRoute('app_admin');
-        }
+        $manager->remove($commande);
+        $manager->flush();
 
-        $commande = new Commande();
+        $this->addFlash('success', 'La commande a été supprimée avec succès.');
+
+        return $this->redirectToRoute('home');
+    }
+
+    #[Route('/show/formCommande/{id}', name: 'form_commande')]
+    public function formCommande(EntityManagerInterface $manager, Request $request, Vehicule $vehicule = null, Commande $commande = null): Response
+    {
         $membre = $this->getUser();
-
+        
+        if ($commande == null) {
+            $commande = new Commande();
+            $commande->setDateHeureDepart(new \DateTime());
+            $commande->setDateHeureFin(new \DateTime());
+        }
+        
         $form = $this->createForm(CommandeType::class, $commande);
         $form->handleRequest($request);
 
@@ -78,7 +101,7 @@ class AppController extends AbstractController
             $dateFin = $commande->getDateHeureFin();
             $nombreJours = $dateFin->diff($dateDebut)->days;
 
-            $prixJournalier = $vehicule->getPrixJournalier();
+            $prixJournalier =  $vehicule->getPrixJournalier();
             $prixTotal = $prixJournalier * $nombreJours;
 
             $commande
@@ -97,7 +120,10 @@ class AppController extends AbstractController
             'vehicule' => $vehicule,
             'commandeForm' => $form->createView(),
             // "editMode" => $commande->getId() !== null
-
         ]);
     }
+
+
+
+
 }

@@ -144,18 +144,7 @@ class AdminController extends AbstractController
         $manager->flush();
         $this->addFlash('success', "Le membre a bien été supprimer");
         return $this->redirectToRoute('gestion_membre');
-    }
-
-    #[Route('/admin/commande/{id}/delete', name: 'delete_commande')]
-    public function deleteCommande(Commande $commande, EntityManagerInterface $manager): Response
-    {
-        $manager->remove($commande);
-        $manager->flush();
-
-        $this->addFlash('success', 'La commande a été supprimée avec succès.');
-
-        return $this->redirectToRoute('gestion_commande');
-    }
+    }   
 
 
     #[Route("/blog/show/{id}", name: "show_membre")]
@@ -174,9 +163,9 @@ class AdminController extends AbstractController
     #[Route("/admin/commande/edit/{id}", name:"admin_edit_commande")]
     public function formCommande(EntityManagerInterface $manager, Request $request,Vehicule $vehicule = null, Commande $commande): Response 
     {
-        if ($vehicule == null) 
+        if ($commande == null) 
         {
-            return $this->redirectToRoute('home');
+            $commande = new Commande;
         }
 
         $commande;
@@ -190,7 +179,7 @@ class AdminController extends AbstractController
 
             $commande
                 ->setDateEnregistrement(new \DateTime())
-                ->setVehicule($vehicule)
+                // ->setVehicule($vehicule)
                 ->setMembre($membre);
 
             $manager->persist($commande);
@@ -200,8 +189,19 @@ class AdminController extends AbstractController
         }
 
         return $this->render('admin/formEditCommande.html.twig', [
-            'vehicule' => $vehicule,
+            'commande' => $commande,
             'commandeForm' => $form->createView(),
         ]);
+    }
+
+    #[Route('/admin/commande/delete/{id}', name: 'admin_delete_commande')]
+    public function deleteCommande(Commande $commande, EntityManagerInterface $manager): Response
+    {
+        $manager->remove($commande);
+        $manager->flush();
+
+        $this->addFlash('success', 'La commande a été supprimée avec succès.');
+
+        return $this->redirectToRoute('gestion_commande');
     }
 }

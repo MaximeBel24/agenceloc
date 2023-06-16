@@ -14,7 +14,7 @@
         <article class="col-md-8 mx-auto text-center bg-secondary text-dark border border-dark mb-3 p-3 mt-3 mr-1">
             <h2>{{ vehicule.titre }}</h2>
                 <h3>{{ vehicule.marque }} {{ vehicule.modele }}</h3>
-                <div>{{ vehicule.photo }}</div>
+                <div><img src="{{ vehicule.photo }}" alt=""></div>
                 <div class="card-body">
                     <div class="metadata my-2">Ajoutée le 
                     {{vehicule.dateEnregistrement|date('d/m/Y à H:i:s')}}

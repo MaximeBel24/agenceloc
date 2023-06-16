@@ -16,8 +16,9 @@ class VehiculeType extends AbstractType
             ->add('marque')
             ->add('modele')
             ->add('description')
-            ->add('photo')
+            ->add('photo', )
             ->add('prix_journalier')
+            
             // ->add('date_enregistrement')
         ;
     }

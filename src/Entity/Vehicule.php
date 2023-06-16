@@ -9,8 +9,11 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\VehiculeRepository;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+// use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: VehiculeRepository::class)]
+// #[Vich\Uploadable]
 class Vehicule
 {
     #[ORM\Id]
@@ -34,8 +37,7 @@ class Vehicule
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[Assert\NotBlank(message:"le champs {{ label }} ne peut pas être vide")]
-    #[ORM\Column(length: 200)]
+    #[ORM\Column(length: 200, nullable: true)]
     private ?string $photo = null;
 
     #[Assert\NotNull(message:"le champs {{ label }} ne peut pas être vide")]
