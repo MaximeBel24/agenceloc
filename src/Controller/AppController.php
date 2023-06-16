@@ -9,7 +9,6 @@ use App\Form\CommandeType;
 use App\Repository\VehiculeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -46,7 +45,7 @@ class AppController extends AbstractController
         ]);
     }
 
-    #[Route("/show/{id}", name: "show_commande")]
+    #[Route("/show/commande/{id}", name: "show_commande")]
     public function showCommande( Commande $commande) :Response
     {
         if($commande == null)
@@ -59,44 +58,46 @@ class AppController extends AbstractController
         ]);
     }
 
-    #[Route("/admin/commande/edit/{id}", name:"edit_commande")]
+    // #[Route("/commande/edit/{id}", name:"edit_commande")]
     #[Route('/show/formCommande/{id}', name: 'form_commande')]
-    public function formCommande(EntityManagerInterface $manager, Request $request,Vehicule $vehicule = null, Security $security): Response 
+    public function formCommande(EntityManagerInterface $manager, Request $request,Vehicule $vehicule = null): Response 
     {
         if ($vehicule == null) 
         {
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('app_admin');
         }
 
         $commande = new Commande();
-    $membre = $this->getUser();
+        $membre = $this->getUser();
 
-    $form = $this->createForm(CommandeType::class, $commande);
-    $form->handleRequest($request);
+        $form = $this->createForm(CommandeType::class, $commande);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        $dateDebut = $commande->getDateHeureDepart();
-        $dateFin = $commande->getDateHeureFin();
-        $nombreJours = $dateFin->diff($dateDebut)->days;
+        if ($form->isSubmitted() && $form->isValid()) {
+            $dateDebut = $commande->getDateHeureDepart();
+            $dateFin = $commande->getDateHeureFin();
+            $nombreJours = $dateFin->diff($dateDebut)->days;
 
-        $prixJournalier = $vehicule->getPrixJournalier();
-        $prixTotal = $prixJournalier * $nombreJours;
+            $prixJournalier = $vehicule->getPrixJournalier();
+            $prixTotal = $prixJournalier * $nombreJours;
 
-        $commande
-            ->setDateEnregistrement(new \DateTime())
-            ->setPrixTotal($prixTotal)
-            ->setVehicule($vehicule)
-            ->setMembre($membre);
+            $commande
+                ->setDateEnregistrement(new \DateTime())
+                ->setPrixTotal($prixTotal)
+                ->setVehicule($vehicule)
+                ->setMembre($membre);
 
-        $manager->persist($commande);
-        $manager->flush();
+            $manager->persist($commande);
+            $manager->flush();
 
-        return $this->redirectToRoute('home');
-    }
+            return $this->redirectToRoute('home');
+        }
 
-    return $this->render('app/formCommande.html.twig', [
-        'vehicule' => $vehicule,
-        'commandeForm' => $form->createView(),
-    ]);
+        return $this->render('app/formCommande.html.twig', [
+            'vehicule' => $vehicule,
+            'commandeForm' => $form->createView(),
+            // "editMode" => $commande->getId() !== null
+
+        ]);
     }
 }

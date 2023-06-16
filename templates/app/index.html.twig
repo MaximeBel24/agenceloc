@@ -3,7 +3,10 @@
 {% block title %}Hello AppController!{% endblock %}
 
 {% block body %}
-    <div style="background-image: url('../../public/assets/img/boutique.jpg'); min-height :800px">
-
-    </div>
+<div class="hero">
+    <h1 class="text-center">Binvenue sur AgenceLoc</h1>
+    <h2 class="text-center">Venez louer nos voitures sportives</h2>
+    <a href="{{path('blog_vehicule')}}" class="btn btn-primary w-25">Voir nos véhicules</a>
+</div>
+    {# <img src="{{ asset('assets/img/boutique.jpg')}}" width="100%"> #}
 {% endblock %}

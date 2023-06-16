@@ -5,9 +5,10 @@
 
 
 {% block body %}
-
-<section class="row article">
+<div class="container">
     <a href="{{ path('blog_vehicule') }}" class="btn btn-primary mt-3 ">Retour Liste Vehicule</a>
+<section class="row article">
+    
    
     
         <article class="col-md-8 mx-auto text-center bg-secondary text-dark border border-dark mb-3 p-3 mt-3 mr-1">
@@ -21,15 +22,12 @@
                     <p class="card-text">{{ vehicule.description|slice(0, 100)}}</p>
                     <p>{{ vehicule.prixJournalier }}</p>
                 </div>
-
-        </article>
         {% if app.user %}      
         <a href="{{ path('form_commande', {id: vehicule.id}) }}" class="btn btn-info me-2">Réserver le véhicule</a>
         {% else %}
         <p>Pour réserver le véhicule, <a href="{{ path('app_register') }}">inscrivez-vous</a></p>
         {% endif %}
-
-        
+        </article>    
     </section>
-
+</div>
 {% endblock %}

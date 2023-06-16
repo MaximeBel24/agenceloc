@@ -7,6 +7,7 @@ use App\Entity\Commande;
 use App\Entity\Vehicule;
 use App\Form\MembreType;
 use App\Form\VehiculeType;
+use App\Form\EditCommandeType;
 use App\Repository\MembreRepository;
 use App\Repository\CommandeRepository;
 use App\Repository\VehiculeRepository;
@@ -167,6 +168,40 @@ class AdminController extends AbstractController
 
         return $this->render('admin/showMembre.html.twig', [
             'membre' => $membre,
+        ]);
+    }
+
+    #[Route("/admin/commande/edit/{id}", name:"admin_edit_commande")]
+    public function formCommande(EntityManagerInterface $manager, Request $request,Vehicule $vehicule = null, Commande $commande): Response 
+    {
+        if ($vehicule == null) 
+        {
+            return $this->redirectToRoute('home');
+        }
+
+        $commande;
+        $membre = $this->getUser();
+
+        $form = $this->createForm(EditCommandeType::class, $commande);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+
+            $commande
+                ->setDateEnregistrement(new \DateTime())
+                ->setVehicule($vehicule)
+                ->setMembre($membre);
+
+            $manager->persist($commande);
+            $manager->flush();
+
+            return $this->redirectToRoute('gestion_commande');
+        }
+
+        return $this->render('admin/formEditCommande.html.twig', [
+            'vehicule' => $vehicule,
+            'commandeForm' => $form->createView(),
         ]);
     }
 }

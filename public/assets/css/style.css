@@ -1,0 +1,21 @@
+.hero{
+    background-image: url('../img/boutique.jpg'), linear-gradient(#000,transparent);
+    background-position: center;
+    background-size: cover;
+    height: 925px;   
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 30px;
+}
+
+.hero h1{
+    color:white;
+    font-size: 40px;
+}
+
+.hero h2{
+    color: white;
+}
+
